@@ -42,6 +42,7 @@ origins = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://sams-frontend-orpin.vercel.app",
 ]
 
 frontend_url = os.environ.get("FRONTEND_URL")
