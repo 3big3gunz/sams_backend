@@ -3,10 +3,15 @@ import csv
 import io
 import json
 from typing import List, Optional
+# pyrefly: ignore [missing-import]
 from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form
+# pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware
+# pyrefly: ignore [missing-import]
 from fastapi.responses import StreamingResponse
+# pyrefly: ignore [missing-import]  
 from fastapi.security import OAuth2PasswordBearer
+# pyrefly: ignore [missing-import]
 from sqlalchemy.orm import Session
 
 from database import engine, SessionLocal, init_db, User, Department, Course, AttendanceSession, AttendanceRecord
@@ -26,13 +31,30 @@ init_db()
 # Initialize Face Engine
 face_engine = FaceEngine()
 
-app = FastAPI(title="Hybrid Attendance Management API", version="1.0.0")
+app = FastAPI(title="SAMS - Student Attendance Management System", version="1.0.0")
 
 # Setup CORS
+import os
+
+# In development, we allow local Vite ports. In production, we add the FRONTEND_URL env var if set.
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+frontend_url = os.environ.get("FRONTEND_URL")
+if frontend_url:
+    origins.append(frontend_url.rstrip("/"))
+
+# Also allow wildcard if in development/fallback, but with credentials=False to prevent FastAPI crashes
+allow_all = not os.environ.get("RENDER")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=["*"] if allow_all else origins,
+    allow_credentials=False if allow_all else True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -43,8 +65,9 @@ def get_db():
     try:
         yield db
     finally:
-        db.close()
+        db.close() 
 
+productionLink = "https://sams-backend-2z68.onrender.com"
 # OAuth2 Password Bearer for token extraction
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
 
@@ -58,10 +81,10 @@ def seed_data(db: Session):
         db.commit()
         db.refresh(dept)
 
-        # Create Admin
+        # Create Admin 
         admin = User(
             name="System Admin",
-            email="admin@attendance.com",
+            email="nalovasamira20@gmail.com",
             role="admin",
             password_hash=hash_password("admin123"),
             department_id=dept.id
