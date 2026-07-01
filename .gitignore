@@ -1,0 +1,49 @@
+# Python environment
+.env
+.venv/
+venv/
+env/
+
+# Bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# FastAPI / Uvicorn
+.venv
+
+# FastAPI debug logging
+*.log
+
+# Temporary files
+*.tmp
+
+# Distribution / build files
+build/
+dist/
+*.egg-info/
+dist/*.tar.gz
+
+# Environment variables
+.env
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Virtual environment 
+.venv
